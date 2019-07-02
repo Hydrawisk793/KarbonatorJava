@@ -14,16 +14,6 @@ import java.util.regex.Pattern;
  * @since 2017-03-15
  */
 public class HttpHeader {
-    private static final Charset CHARSET_UTF_8 = Charset.forName("UTF-8");
-    
-    private static final String FIELD_VALUE_DELIMITER = ": ";
-    
-    private static final String END_OF_FIELD = "\r\n";
-    
-    private static final Pattern HTTP_HEADER_FIELD_REGEX = Pattern.compile(
-        "^(.+?)" + FIELD_VALUE_DELIMITER + "(.+?)$"
-    );
-    
     public static String[] getEnumNames(Class<? extends Enum<?>> e) {
         return Arrays.toString(e.getEnumConstants()).replaceAll("^.|.$", "").split(", ");
     }
@@ -109,7 +99,7 @@ public class HttpHeader {
         else {
             requestMethod_ = HttpRequestMethod.IS_NOT_REQUEST;
             version_ = parseVersion(firstLineTokens[0]);
-            int statusCodeIndex = Arrays.asList(HttpStatusCode.values()).indexOf(Integer.parseInt(firstLineTokens[1], 10));
+            int statusCodeIndex = Arrays.asList(Arrays.stream(HttpStatusCode.values()).map(v -> v.code).toArray()).indexOf(Integer.parseInt(firstLineTokens[1], 10));
             statusCode_ = (
                 statusCodeIndex >= 0
                 ? HttpStatusCode.values()[statusCodeIndex]
@@ -236,6 +226,16 @@ public class HttpHeader {
     public byte[] toByteArray() {
         return toString().getBytes(CHARSET_UTF_8);
     }
+    
+    private static final Charset CHARSET_UTF_8 = Charset.forName("UTF-8");
+    
+    private static final String FIELD_VALUE_DELIMITER = ": ";
+    
+    private static final String END_OF_FIELD = "\r\n";
+    
+    private static final Pattern HTTP_HEADER_FIELD_REGEX = Pattern.compile(
+        "^(.+?)" + FIELD_VALUE_DELIMITER + "(.+?)$"
+    );
     
     private Version parseVersion(String str) {
         Version version = Version.VERSION_1_1;

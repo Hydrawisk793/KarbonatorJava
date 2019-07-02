@@ -2,7 +2,7 @@ package karbonator.net;
 
 import java.nio.charset.Charset;
 
-import karbonator.BitUtils;
+import karbonator.text.Formatting;
 
 /**
  * Represents messages in web socket communications.
@@ -38,7 +38,7 @@ public class WebSocketMessage {
     public String toString() {
         return (
             binary_
-            ? BitUtils.toHexText(messageBytes_, 0, messageBytes_.length, 8)
+            ? Formatting.toHexText(messageBytes_, 0, messageBytes_.length, 8)
             : new String(messageBytes_, CHARSET)
         );
     }

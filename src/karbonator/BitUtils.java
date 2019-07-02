@@ -1,7 +1,5 @@
 package karbonator;
 
-import static karbonator.string.Formatting.*;
-
 public class BitUtils {
     public static byte[] reverse(byte[] dest) {
         byte temp = 0;
@@ -108,7 +106,7 @@ public class BitUtils {
         }
     }
     
-    public static short int16ValueFromBytes(
+    public static short toInt16(
         byte[] bytes,
         int offset,
         boolean byteOrderReversed
@@ -134,7 +132,7 @@ public class BitUtils {
         return value;
     }
     
-    public static int uint16ValueFromBytes(
+    public static int toUInt16(
         byte[] bytes,
         int offset,
         boolean byteOrderReversed
@@ -160,7 +158,7 @@ public class BitUtils {
         return value;
     }
     
-    public static int int32ValueFromBytes(
+    public static int toInt32(
         byte[] bytes,
         int offset,
         boolean byteOrderReversed
@@ -190,7 +188,7 @@ public class BitUtils {
         return value;
     }
     
-    public static long longValueFromBytes(
+    public static long toInt64(
         byte[] bytes,
         int offset,
         boolean byteOrderReversed
@@ -258,30 +256,6 @@ public class BitUtils {
         }
         
         return result;
-    }
-    
-    public static String toHexText(
-        byte[] bytes,
-        int offset, int byteCount,
-        int bytesPerLine
-    ) {
-        StringBuilder sb = new StringBuilder();
-        int count = byteCount;
-        int i = offset;
-        for(; i < byteCount && count >= bytesPerLine; count -= bytesPerLine) {
-            for(int j = 0; j < bytesPerLine; ++j, ++i) {
-                sb.append(padLeft(Integer.toHexString(bytes[i] & 0xFF), 2, '0'));
-                sb.append(' ');
-            }
-            sb.append("\r\n");
-        }
-        for(; i < byteCount && count > 0; --count, ++i) {
-            sb.append(padLeft(Integer.toHexString(bytes[i] & 0xFF), 2, '0'));
-            sb.append(' ');
-        }
-        sb.append("\r\n");
-        
-        return sb.toString();
     }
     
     private BitUtils() {}

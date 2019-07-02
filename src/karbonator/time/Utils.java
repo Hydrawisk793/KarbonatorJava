@@ -1,44 +1,7 @@
 package karbonator.time;
 
 public class Utils {
-    private static final int[] DAY_COUNTS_PER_MONTH = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-    
-    private static final int DAY_COUNT_PER_YEAR = 365;
-    
-    private static final int YEAR_COUNT_PER_YEAR_CYCLE = 400;
-    
-    private static final int LEAP_YEAR_COUNT_PER_YEAR_CYCLE = 97;
-    
-    private static final int DAY_COUNT_PER_YEAR_CYCLE = DAY_COUNT_PER_YEAR * YEAR_COUNT_PER_YEAR_CYCLE + LEAP_YEAR_COUNT_PER_YEAR_CYCLE;
-    
-    private static final double LEAP_YEAR_COUNT_PER_YEAR_FACTOR = LEAP_YEAR_COUNT_PER_YEAR_CYCLE / (double)YEAR_COUNT_PER_YEAR_CYCLE;
-    
     public static final int DAY_COUNT_TO_YEAR1970 = getDayCountToYear(1970);
-    
-    private static final int assertIsMonthValid(int month) {
-        if(month < 1 || month > 12) {
-            throw new RuntimeException("'month' must be in the range [1, 12].");
-        }
-        
-        return month;
-    };
-    
-    private static final int assertIsDayValid(int day) {
-        return assertIsDayValid(day, 1970, 12);
-    }
-    
-    private static final int assertIsDayValid(int day, int year, int month) {
-        if(day < 0) {
-            throw new RuntimeException("'day' must be a non-negative safe integer.");
-        }
-        
-        final int dayCount = getDayCountOfMonth(year, assertIsMonthValid(month));
-        if(day < 1 || day > dayCount) {
-            throw new RuntimeException("'day' must be in the range [1, " + dayCount + "].");
-        }
-        
-        return day;
-    };
     
     public static final int getLeapYearCountFromYear(int year) {
         return (int)Math.floor(LEAP_YEAR_COUNT_PER_YEAR_FACTOR * year);
@@ -82,6 +45,43 @@ public class Utils {
         int dowIndex = day + ((int)Math.floor((13 * (month + 1)) / 5.0) + k + (k >> 2) + (j >> 2) + (5 * j));
         
         return (dowIndex - 1) % 7;
+    };
+    
+    private static final int[] DAY_COUNTS_PER_MONTH = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+    
+    private static final int DAY_COUNT_PER_YEAR = 365;
+    
+    private static final int YEAR_COUNT_PER_YEAR_CYCLE = 400;
+    
+    private static final int LEAP_YEAR_COUNT_PER_YEAR_CYCLE = 97;
+    
+    private static final int DAY_COUNT_PER_YEAR_CYCLE = DAY_COUNT_PER_YEAR * YEAR_COUNT_PER_YEAR_CYCLE + LEAP_YEAR_COUNT_PER_YEAR_CYCLE;
+    
+    private static final double LEAP_YEAR_COUNT_PER_YEAR_FACTOR = LEAP_YEAR_COUNT_PER_YEAR_CYCLE / (double)YEAR_COUNT_PER_YEAR_CYCLE;
+    
+    private static final int assertIsMonthValid(int month) {
+        if(month < 1 || month > 12) {
+            throw new RuntimeException("'month' must be in the range [1, 12].");
+        }
+        
+        return month;
+    };
+    
+    private static final int assertIsDayValid(int day) {
+        return assertIsDayValid(day, 1970, 12);
+    }
+    
+    private static final int assertIsDayValid(int day, int year, int month) {
+        if(day < 0) {
+            throw new RuntimeException("'day' must be a non-negative safe integer.");
+        }
+        
+        final int dayCount = getDayCountOfMonth(year, assertIsMonthValid(month));
+        if(day < 1 || day > dayCount) {
+            throw new RuntimeException("'day' must be in the range [1, " + dayCount + "].");
+        }
+        
+        return day;
     };
     
     private Utils() {}

@@ -1,2 +1,2 @@
 # KarbonatorJava
-A repository for achieving legacy WebSocket server source codes.
+A repository for achieving legacy Java source codes.

@@ -1,4 +1,4 @@
-package karbonator.string;
+package karbonator.text;
 
 /**
  * @author Hydrawisk793
@@ -37,6 +37,30 @@ public class Formatting {
                 sb.append(ch);
             }
         }
+        
+        return sb.toString();
+    }
+    
+    public static String toHexText(
+        byte[] bytes,
+        int offset, int byteCount,
+        int bytesPerLine
+    ) {
+        StringBuilder sb = new StringBuilder();
+        int count = byteCount;
+        int i = offset;
+        for(; i < byteCount && count >= bytesPerLine; count -= bytesPerLine) {
+            for(int j = 0; j < bytesPerLine; ++j, ++i) {
+                sb.append(padLeft(Integer.toHexString(bytes[i] & 0xFF), 2, '0'));
+                sb.append(' ');
+            }
+            sb.append("\r\n");
+        }
+        for(; i < byteCount && count > 0; --count, ++i) {
+            sb.append(padLeft(Integer.toHexString(bytes[i] & 0xFF), 2, '0'));
+            sb.append(' ');
+        }
+        sb.append("\r\n");
         
         return sb.toString();
     }
